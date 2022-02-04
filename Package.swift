@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -21,9 +21,32 @@ let package = Package(
     ]
 )
 #if os(Linux)
-package.targets.append(.target(name: "amrleveldb", dependencies: ["leveldb_linux"]))
-package.targets.append(.target(name: "leveldb_linux", dependencies: []))
+package.targets.append(
+    .target(
+        name: "amrleveldb",
+        dependencies: ["leveldb_linux"],
+        exclude: ["include/port/README"]
+    )
+)
+package.targets.append(
+    .target(
+        name: "leveldb_linux",
+        dependencies: [],
+        exclude: ["port/README"]
+    )
+)
 #else
-package.targets.append(.target(name: "amrleveldb", dependencies: ["leveldb_macos"]))
-package.targets.append(.target(name: "leveldb_macos", dependencies: []))
+package.targets.append(
+    .target(
+        name: "amrleveldb",
+        dependencies: ["leveldb_macos"],
+        exclude: ["include/port/README"]
+    )
+)
+package.targets.append(
+    .target(
+        name: "leveldb_macos",
+        dependencies: []
+    )
+)
 #endif
